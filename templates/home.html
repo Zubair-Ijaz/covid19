@@ -1,0 +1,166 @@
+{% extends 'layout.html' %}
+
+<head>
+    {% block title %}COVID-19 Info{% endblock %}
+</head>
+
+{% block content %}
+    {% load static %}
+    <script>
+        function submitform(){
+            document.getElementById("myForm").submit();
+        }
+    </script>
+    <div class="container">
+        <img class="main-image" src="{% static '/images/covid-19.png' %}" alt="COVID-19">
+        <div class="row">
+            {% for item in data %}
+                <div class="card">
+                    <div class="{{item.4}}">
+                        {{item.0}}
+                        <hr>
+                        <h5>{{item.1}}</h5>
+                        <p style="color: rgba(0, 0, 0, 0.54);">{{item.2}}</p>
+                        {{item.3}}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 mx-auto order-6">
+                <form id="myForm" action="{% url 'home' %}" method="POST">
+                    {% csrf_token %}
+                    <select class="select" name="droped" id="country-selection" onsubmit="return true;" onchange="submitform(this);">
+                        <option value="Globe" country="Globe" selected>Global</option>
+                        {% for country in countries %}
+                            {% if country|length > 1 %}
+                                {% if country.iso2 == iso2 %}
+                                    <option value="{{country.iso2}}" country="{{country.name}}" selected='{{iso2}}'>
+                                        {{country.name}}
+                                    </option>
+                                {% else %}
+                                    <option value="{{country.iso2}}">
+                                        {{country.name}}
+                                    </option>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if iso2 == 'Globe' %}
+                        <img src="{% static '/images/global-img.png' %}" alt="Flag">
+                    {% else %}
+                        <img src="https://www.countryflags.io/{{iso2}}/shiny/32.png" alt="Flag">
+                    {% endif %}    
+                </form>
+            </div>
+        </div>
+    </div>
+    {% include 'js.html' %}
+    <script>
+        {% block jquery %}
+            var endpoint = '/api/chart/data'
+            var labels = []
+            var defaultData = []
+            var chartLabel = 'Label'
+            var opt = $('option:selected', this).attr('country');
+            $.ajax({
+                method: "GET",
+                url: endpoint,
+                success: function(data){
+                    labels = data.labels;
+                    chartLabel = data.chartLabel
+                    chartLabel = chartLabel+opt;
+                    defaultData = data.chartdata;
+                    setChart();
+                },
+                error: function(error_data){
+                    console.log("error");
+                    console.log(error_data);
+                }
+            });
+            function setChart(){
+                var ctx1 = document.getElementById('barChart').getContext('2d');
+                var ctx2 = document.getElementById('pieChart').getContext('2d');
+                var barChart = new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: chartLabel,
+                            data: defaultData,
+                            backgroundColor: [
+                                'rgba(0,0,255,.5)',
+                                'rgba(0,255,0,.5)',
+                                'rgba(255,220,0,.5)',
+                                'rgba(255,0,0,.5)'
+                            ],
+                            borderColor: [
+                                'rgba(0,0,255,1)',
+                                'rgba(0,255,0,1)',
+                                'rgba(255,220,0,1)',
+                                'rgba(255,0,0,1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+                var pieChart = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: chartLabel,
+                            data: defaultData,
+                            backgroundColor: [
+                                'rgba(0,0,255,.5)',
+                                'rgba(0,255,0,.5)',
+                                'rgba(255,220,0,.5)',
+                                'rgba(255,0,0,.5)'
+                            ],
+                            borderColor: [
+                                'rgba(0,0,255,1)',
+                                'rgba(0,255,0,1)',
+                                'rgba(255,220,0,1)',
+                                'rgba(255,0,0,1)'
+                            ],
+                            borderWidth: 1,
+                        }]
+                    },
+                    options: {}
+                });
+            }
+        {% endblock %}
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href);
+        }
+    </script>
+    <div class="container">
+        <div class="row" url-endpoint="{% url 'api-data' %}">
+            <div class="canv">
+                <canvas id="barChart" width="400" height="400"></canvas>
+            </div>
+            <div class="canv">
+                <canvas id="pieChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>
+            <a class="links" href="https://github.com/Zubair-Ijaz">Find Me On GitHub</a>
+            <br>
+            ©
+            <script>document.write((new Date).getFullYear())</script>
+            Copyright:
+            <a class="links" href="/">Muhammad Zubair</a>
+        </p>
+    </footer>
+{% endblock %}

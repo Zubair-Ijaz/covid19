@@ -1,0 +1,97 @@
+.card{
+	position: relative;
+	padding: 15px;
+	border: none;
+}
+.canv {
+	display: block;
+	margin: auto;
+}
+
+@media only screen and (max-width: 600px) {
+	.card {width: 100%;}
+	.canv {width: 90%;}
+	.main-image {width: 85%;}
+	.select {width: 75%;}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.card {width: 100%;}
+	.canv {width: 90%;}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.card {width: 50%;}
+	.canv {width: 50%;}
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	.card {width: 25%;}
+	.canv {width: 50%;}
+} 
+.infected {
+	border-bottom: 10px solid rgba(0,0,255,.5) !important;
+	border: 1px solid rgba(0,0,0,.2);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.recovered {
+	border-bottom: 10px solid rgba(0,255,0,.5) !important;
+	border: 1px solid rgba(0,0,0,.2);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.active {
+	border-bottom: 10px solid rgba(255,220,0,.5) !important;
+	border: 1px solid rgba(0,0,0,.2);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.death {
+	border-bottom: 10px solid rgba(255,0,0,.5) !important;
+	border: 1px solid rgba(0,0,0,.2);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.main-image {
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.custom-select {
+	align-content: center;
+	font-family: Arial;
+	background: white;
+}
+form {
+	text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.submit{
+	background-color: #6BA3E8;
+}
+.select{
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+.footer {
+	flex-shrink: 0;
+    text-align: center;
+	margin-top: 1%;
+	background-color: azure;
+}
+.links {
+	text-decoration: underline
+}
+.error-message {
+	font-family: sans-serif;
+	font-size: 25px;
+	text-align: center;
+}
