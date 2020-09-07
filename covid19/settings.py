@@ -26,8 +26,7 @@ SECRET_KEY = 'd#v*@l=uzf($vst*7kd2alhwv3@n)l#+pwpxmjk$n#abon4jtu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['covid19-inf.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
