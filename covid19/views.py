@@ -14,7 +14,7 @@ def home(request):
     resp = requests.get('https://covid19.mathdro.id/api/countries')
     country_data = json.loads(resp.text)
     countries = country_data['countries']
-    locale.setlocale(locale.LC_ALL, 'en_US')
+    locale.setlocale(locale.LC_ALL, 'de_DE.utf8')
     iso2 = 'Globe'
     if request.method == 'POST':
         iso2 = request.POST['droped']
